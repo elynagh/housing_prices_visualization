@@ -83,14 +83,14 @@ const icon_data = [
   {svg: "svg_43221.svg", coordinates: [-83.068,40.014], size: 4},
   {svg: "svg_43220.svg", coordinates: [-83.0742437,40.0491532], size: 4},
   {svg: "svg_43214.svg", coordinates: [-83.0162692,40.0517339], size: 4},
-  {svg: "svg_43085.svg", coordinates: [-83.02,40.095], size: 4},
-  {svg: "svg_43231.svg", coordinates: [-82.938,40.0793330], size: 4},
+  //{svg: "svg_43085.svg", coordinates: [-83.02,40.095], size: 4},
+  //{svg: "svg_43231.svg", coordinates: [-82.938,40.0793330], size: 4},
   {svg: "svg_43230.svg", coordinates: [-82.8708749,40.0357633], size: 6},
   {svg: "svg_43213.svg", coordinates: [-82.8621340,39.9668733], size: 4},
-  {svg: "svg_43125.svg", coordinates: [-82.87,39.8380522], size: 5},
+  //{svg: "svg_43125.svg", coordinates: [-82.87,39.8380522], size: 5},
   {svg: "svg_43207.svg", coordinates: [-82.9628316,39.8946789], size: 6},
   {svg: "svg_43209.svg", coordinates: [-82.9307207,39.9536159], size: 4},
-  {svg: "svg_43203.svg", coordinates: [-82.9690263,39.9730840], size: 2},
+  //{svg: "svg_43203.svg", coordinates: [-82.9690263,39.9730840], size: 2},
   {svg: "svg_43215.svg", coordinates: [-83,39.965], size: 4},
   {svg: "svg_43202.svg", coordinates: [-83.005,40.0198116], size: 3},
   {svg: "svg_43201.svg", coordinates: [-82.9999465,39.9908298], size: 2.5},
@@ -146,7 +146,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
     }),
     new IconLayer({
       id: 'IconLayer_background',
-      data: icon_data,
+      //data: icon_data,
       
       /* props from IconLayer class */
     
@@ -182,7 +182,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
     }),
     new IconLayer({
       id: 'IconLayer',
-      data: icon_data,
+      //data: icon_data,
       
       /* props from IconLayer class */
     
