@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start-local": "webpack-dev-server --env.local --progress --hot --open",
-    "start": "webpack-dev-server --progress --hot --open"
+    "start": "webpack-dev-server --progress --hot --open",
+    "heroku-prebuild": "npm install --dev"
   },
   "dependencies": {
     "@deck.gl/react": "^8.6.0",
