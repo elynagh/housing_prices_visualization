@@ -6,7 +6,7 @@
     "start-local": "webpack-dev-server --env.local --progress --open",
     "start": "webpack-dev-server --progress --open",
     "heroku-prebuild": "npm install --dev",
-    "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress"
+    "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress"
   },
   "dependencies": {
     "@deck.gl/react": "^8.6.0",
