@@ -5,12 +5,14 @@
   "scripts": {
     "start-local": "webpack-dev-server --env.local --progress --open",
     "start": "webpack-dev-server --progress --open",
-    "heroku-prebuild": "npm install --dev"
+    "heroku-prebuild": "npm install --dev",
+    "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress"
   },
   "dependencies": {
     "@deck.gl/react": "^8.6.0",
     "d3-scale": "^2.0.0",
     "deck.gl": "^8.6.0-alpha.0",
+    "express": "^4.17.1",
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
     "react-map-gl": "^5.0.0"
