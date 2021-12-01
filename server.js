@@ -1,9 +1,11 @@
+const express = require('express');
 var path = require('path');
-var express = require('express');
+const app = express();
 
-var app = express();
+app.use(express.static(path.join(__dirname, 'build')));
+app.use('src/assets', express.static(path.join(__dirname + 'src/assets/')));
+app.use('src/animations', express.static(path.join(__dirname + 'src/animations/')));
 
-app.use(express.static(path.join(__dirname, 'dist')));
 app.set('port', process.env.PORT || 8080);
 
 var server = app.listen(app.get('port'), function() {

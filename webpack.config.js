@@ -2,7 +2,7 @@
 // delete the local development overrides at the bottom of this file
 
 const CONFIG = {
-  mode: 'development',
+  mode: 'production',
 
   entry: {
     app: './app.js'
