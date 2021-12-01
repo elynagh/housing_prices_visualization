@@ -28,6 +28,47 @@ export const COLOR_SCALE = scaleThreshold()
     [189, 0, 38]
   ]);
 
+var margin = { top: 20, right: 10, bottom: 5, left: 10 },
+width = 300 - margin.left - margin.right,
+height = 150 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#legend_heatmap")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  //.attr("transform",
+  //    "translate(" + margin.left + "," + margin.top + ")");
+
+var z = d3.scaleSequential(d3.interpolateOranges)
+z.domain([0, 1]);
+var legend = svg.selectAll(".legend")
+    .data(z.ticks(6).slice(1).reverse())
+    .enter().append("g")
+    .attr("class", "legend")
+    .attr("transform", function(d, i) { return "translate(" + (0) + "," + (20 + i * 20) + ")"; });
+
+legend.append("rect")
+    .attr("width", 20)
+    .attr("height", 20)
+    .style("fill", z);
+
+var percentage = d3.format(".0%");
+var percentageFormat = z.ticks(6).slice(1).reverse().map(each => percentage(each));
+legend.append("text")
+    .attr("x", 25)
+    .attr("y", 10)
+    .attr("dy", ".35em")
+    .text(percentage);
+
+svg.append("text")
+    .attr("class", "label")
+    .attr("x", 0)
+    .attr("y", 10)
+    .attr("dy", ".35em")
+    .text("Pecentage");
+
 const INITIAL_VIEW_STATE = {
   latitude: 39.95,
   longitude: -83,

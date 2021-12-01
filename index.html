@@ -7,8 +7,31 @@
   <style>
     body {margin: 0; font-family: sans-serif; width: 100vw; height: 100vh; overflow: hidden;}
   </style>
+  <script src="https://libs.cartocdn.com/carto-vl/v1.4.4/carto-vl.min.js"></script>
+
+  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js"></script>
+  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css" rel="stylesheet" />
+
+  <link href="https://carto.com/developers/carto-vl/v1.4.4/examples/maps/style.css" rel="stylesheet">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
 </head>
 <body>
+  <aside class="toolbox">
+    <div class="box">
+        <header>
+            <h1>Housing Trends in Columbus</h1>
+        </header>
+        <section>
+          <div id="controls">
+              <ul id="legend_lineplots"></ul>
+              <li><span class="box" style="background-color:red;border: 1px solid black;padding: 10px; margin-right: 5px;"></span> <span>Number of Sales in Year</span></li>
+              <li><span class="box" style="background-color:green;border: 1px solid black; padding: 10px; margin-right: 5px;"></span> <span>Average Sales Price in Year</span></li>
+              <div id="legend_heatmap"></div>
+          </div>
+        </section>
+    </div>
+  </aside>
 <div id="app"></div>
 </body>
 <script type="text/javascript" src="/dist/bundle.js"></script>
