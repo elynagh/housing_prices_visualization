@@ -233,6 +233,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
   );
 }
 
-export function renderToDOM(container) {
+render(<App name='World' />, document.getElementById('app'));
+/* export function renderToDOM(container) {
   render(<App />, container);
-}
+} */

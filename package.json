@@ -5,15 +5,18 @@
   "engines": {
     "node": "14.15.4"
   },
+  "main": "server.js",
   "scripts": {
     "start-local": "webpack-dev-server --env.local --progress --hot --open",
     "startlol": "webpack-dev-server --progress --hot --open",
     "heroku-prebuild": "npm install --dev",
     "build": "webpack --config webpack.config.js",
-    "start": "node server.js"
+    "start": "npm run build && node server.js"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.16.4",
     "@deck.gl/react": "^8.6.0",
+    "babel-polyfill": "^6.26.0",
     "d3-scale": "^2.0.0",
     "deck.gl": "^8.6.0-alpha.0",
     "react": "^16.3.0",
