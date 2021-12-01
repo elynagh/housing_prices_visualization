@@ -8,24 +8,18 @@ import {scaleThreshold} from 'd3-scale';
 
 // Source data GeoJSON
 const DATA_URL =
-  'test_geojson_2018_testidx.json'; // eslint-disable-line
+  'geojson_heatmap.json'; // eslint-disable-line
 
 export const COLOR_SCALE = scaleThreshold()
-  .domain([0,100,200,300,400,500,600,700,800,900,1000,10000])
+  .domain([0,.2,.4,.6,.8,.9,1])
   .range([
-    [65, 182, 196],
-    [127, 205, 187],
-    [199, 233, 180],
-    [237, 248, 177],
-    // zero
-    [255, 255, 204],
-    [255, 237, 160],
-    [254, 217, 118],
-    [254, 178, 76],
-    [253, 141, 60],
-    [252, 78, 42],
-    [227, 26, 28],
-    [189, 0, 38]
+    [253, 216, 179],
+    [253, 216, 179],
+    [253, 167, 98],
+    [242, 112, 29],
+    [196, 65, 3],
+    [167, 48, 4],
+    [127, 39, 4]
   ]);
 
 var margin = { top: 20, right: 10, bottom: 5, left: 10 },
@@ -47,27 +41,34 @@ var legend = svg.selectAll(".legend")
     .data(z.ticks(6).slice(1).reverse())
     .enter().append("g")
     .attr("class", "legend")
-    .attr("transform", function(d, i) { return "translate(" + (0) + "," + (20 + i * 20) + ")"; });
+    .attr("transform", function(d, i) { return "translate(" + (0) + "," + (45 + i * 20) + ")"; });
 
 legend.append("rect")
     .attr("width", 20)
     .attr("height", 20)
     .style("fill", z);
 
-var percentage = d3.format(".0%");
-var percentageFormat = z.ticks(6).slice(1).reverse().map(each => percentage(each));
+//var percentage = d3.format(".0%");
+//var percentageFormat = z.ticks(6).slice(1).reverse().map(each => percentage(each));
 legend.append("text")
     .attr("x", 25)
     .attr("y", 10)
     .attr("dy", ".35em")
-    .text(percentage);
+    .text(d3.format(""));
 
 svg.append("text")
     .attr("class", "label")
     .attr("x", 0)
     .attr("y", 10)
     .attr("dy", ".35em")
-    .text("Pecentage");
+    .text("Change in normalized average sales");
+
+    svg.append("text")
+    .attr("class", "label")
+    .attr("x", 0)
+    .attr("y", 30)
+    .attr("dy", ".35em")
+    .text("price from 2018 to 2021");
 
 const INITIAL_VIEW_STATE = {
   latitude: 39.95,
@@ -147,117 +148,77 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
     lightingEffect.shadowColor = [0, 0, 0, 0.5];
     return [lightingEffect];
   });
+
+  let polyLayer = new PolygonLayer({
+    id: 'ground',
+    data: landCover,
+    stroked: false,
+    getPolygon: f => f,
+    getFillColor: [0, 0, 0, 0]
+  });
+
+  let geoLayer = new GeoJsonLayer({
+    id: 'geojson',
+    data,
+    opacity: 0.8,
+    stroked: false,
+    filled: true,
+    extruded: true,
+    wireframe: true,
+    getElevation: 0,
+    getFillColor: f => COLOR_SCALE(f.properties.change),
+    getLineColor: [255, 255, 255],
+    pickable: true,
+  })
+
+  let iconBackground = new IconLayer({
+    id: 'IconLayer_background',
+    data: icon_data,
+    getIcon: d => ({
+      url: 'white_background.PNG',
+      x: 0,
+      y: 0,
+      width: 128,
+      height: 128,
+      mask: false
+    }),
+    getPosition: d => d.coordinates,
+    getSize: d => d.size,
+    sizeScale: 500,
+    sizeUnits: "meters",
+    pickable: false,
+    alphaCutoff: 0,
+    getColor: [0,0,0,200],
+    opacity: 100
+  })
+
+  let iconPlot = new IconLayer({
+    id: 'IconLayer',
+    data: icon_data,
+    getIcon: d => ({
+      url: d.svg,
+      x: 0,
+      y: 0,
+      width: 128,
+      height: 128,
+      mask: false
+    }),
+    getPosition: d => d.coordinates,
+    getSize: d => d.size,
+    sizeScale: 500,
+    sizeUnits: "meters",
+    pickable: false,
+    alphaCutoff: 0,
+    getColor: [0,0,0,200],
+    opacity: 90
+  })
+
   const layers = [
     // only needed when using shadows - a plane for shadows to drop on
-    new PolygonLayer({
-      id: 'ground',
-      data: landCover,
-      stroked: false,
-      getPolygon: f => f,
-      getFillColor: [0, 0, 0, 0]
-    }),
-    new GeoJsonLayer({
-      id: 'geojson',
-      data,
-      opacity: 0.8,
-      stroked: false,
-      filled: true,
-      extruded: true,
-      wireframe: true,
-      getElevation: 0,
-      getFillColor: f => COLOR_SCALE(f.properties.sales_2018),
-      getLineColor: [255, 255, 255],
-      pickable: true,
-      /* pointType: 'icon',
-      getIcon: f=>'marker',
-      // getPixelOffset: [0, 0],
-      //getPosition: [-89, 39],
-      getIconSize: 5,
-      iconSizeScale: 8,
-      iconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
-      iconMapping: {
-        marker: {
-          x: 0,
-          y: 0,
-          width: 128,
-          height: 128,
-          mask: false
-        }
-      }, */
-
-    }),
-    new IconLayer({
-      id: 'IconLayer_background',
-      data: icon_data,
-      
-      /* props from IconLayer class */
-    
-      getIcon: d => ({
-        url: 'white_background.PNG',
-        x: 0,
-        y: 0,
-        width: 128,
-        height: 128,
-        mask: false
-      }),
-      getPosition: d => d.coordinates,
-      getSize: d => d.size,
-      /* iconAtlas: 'svg_43026.svg',
-      iconMapping: {
-        marker: {
-          x: 0,
-          y: 0,
-          width: 128,
-          height: 128,
-          mask: false
-        }
-      }, */
-      // onIconError: null,
-      // sizeMaxPixels: Number.MAX_SAFE_INTEGER,
-      // sizeMinPixels: 0,
-      sizeScale: 500,
-      sizeUnits: "meters",
-      pickable: false,
-      alphaCutoff: 0,
-      getColor: [0,0,0,200],
-      opacity: 100
-    }),
-    new IconLayer({
-      id: 'IconLayer',
-      data: icon_data,
-      
-      /* props from IconLayer class */
-    
-      getIcon: d => ({
-        url: d.svg,
-        x: 0,
-        y: 0,
-        width: 128,
-        height: 128,
-        mask: false
-      }),
-      getPosition: d => d.coordinates,
-      getSize: d => d.size,
-      /* iconAtlas: 'svg_43026.svg',
-      iconMapping: {
-        marker: {
-          x: 0,
-          y: 0,
-          width: 128,
-          height: 128,
-          mask: false
-        }
-      }, */
-      // onIconError: null,
-      //sizeMaxPixels: 50,
-      // sizeMinPixels: 0,
-      sizeScale: 500,
-      sizeUnits: "meters",
-      pickable: false,
-      alphaCutoff: 0,
-      getColor: [0,0,0,200],
-      opacity: 90
-    }),
+    polyLayer,
+    geoLayer,
+    iconBackground,
+    iconPlot,
     
   ];
 
@@ -275,6 +236,4 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
 }
 
 render(<App name='World' />, document.getElementById('app'));
-/* export function renderToDOM(container) {
-  render(<App />, container);
-} */
+
