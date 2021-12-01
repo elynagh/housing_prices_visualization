@@ -2,9 +2,11 @@ const express = require('express');
 var path = require('path');
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'build')));
-app.use('src/assets', express.static(path.join(__dirname + 'src/assets/')));
-app.use('src/animations', express.static(path.join(__dirname + 'src/animations/')));
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + '/dist/index.html');
+});
 
 app.set('port', process.env.PORT || 8080);
 
