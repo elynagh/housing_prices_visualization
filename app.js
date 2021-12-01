@@ -102,9 +102,8 @@ function getTooltip({object}) {
       html: `\
   <div><b>Zipcode</b></div>
   <div>${object.properties.ZCTA5CE10} / ZIP code</div>
-  <div>${object.properties.valuePerSqm} / m<sup>2</sup></div>
-  <div><b>Growth</b></div>
-  <div>${Math.round(object.properties.growth * 100)}%</div>
+  <div><b>2018 to 2021 average price change</b></div>
+  <div>${object.properties.change}%</div>
   `
     }
   );
