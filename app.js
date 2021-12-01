@@ -152,7 +152,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
       /* props from IconLayer class */
     
       getIcon: d => ({
-        url: 'white_background.png',
+        url: 'white_background.PNG',
         x: 0,
         y: 0,
         width: 128,
