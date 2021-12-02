@@ -12,3 +12,5 @@ npm start
 ```
 
 Then naviagate to http://localhost:8080/ in your browser.
+
+To view the running app go to https://housing-prices-vis-app.herokuapp.com/
