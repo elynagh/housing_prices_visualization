@@ -10,6 +10,7 @@ import {scaleThreshold} from 'd3-scale';
 const DATA_URL =
   'geojson_heatmap.json'; // eslint-disable-line
 
+// color scale for heatmap
 export const COLOR_SCALE = scaleThreshold()
   .domain([0,.2,.4,.6,.8,.9,1])
   .range([
@@ -22,6 +23,7 @@ export const COLOR_SCALE = scaleThreshold()
     [127, 39, 4]
   ]);
 
+// To generate the D3 legend elements
 var margin = { top: 20, right: 10, bottom: 5, left: 10 },
 width = 300 - margin.left - margin.right,
 height = 150 - margin.top - margin.bottom;
@@ -32,8 +34,6 @@ var svg = d3.select("#legend_heatmap")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
-  //.attr("transform",
-  //    "translate(" + margin.left + "," + margin.top + ")");
 
 var z = d3.scaleSequential(d3.interpolateOranges)
 z.domain([0, 1]);
@@ -48,8 +48,6 @@ legend.append("rect")
     .attr("height", 20)
     .style("fill", z);
 
-//var percentage = d3.format(".0%");
-//var percentageFormat = z.ticks(6).slice(1).reverse().map(each => percentage(each));
 legend.append("text")
     .attr("x", 25)
     .attr("y", 10)
@@ -70,6 +68,7 @@ svg.append("text")
     .attr("dy", ".35em")
     .text("price from 2018 to 2021");
 
+// set initial view location
 const INITIAL_VIEW_STATE = {
   latitude: 39.95,
   longitude: -83,
@@ -79,6 +78,7 @@ const INITIAL_VIEW_STATE = {
   bearing: 0
 };
 
+// load basemap
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
 
 const ambientLight = new AmbientLight({
@@ -95,6 +95,7 @@ const dirLight = new SunLight({
 
 const landCover = [[[-123.0, 49.196], [-123.0, 49.324], [-123.306, 49.324], [-123.306, 49.196]]];
 
+// set tooltip
 function getTooltip({object}) {
   console.log(object);
   return (
@@ -109,14 +110,7 @@ function getTooltip({object}) {
   );
 }
 
-function svgToDataURL(svg) {
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-}
-
-const ICON_MAPPING = {
-  marker: {x: 0, y: 0, width: 128, height: 128, mask: false}
-};
-
+// for loading svgs
 const icon_data = [
   {svg: "svg_43026.svg", coordinates: [-83.1944130,40.0208503], size: 5},
   {svg: "svg_43123.svg", coordinates: [-83.075,39.8694893], size: 6},
@@ -141,6 +135,7 @@ const icon_data = [
   {svg: "svg_43212.svg", coordinates: [-83.0428237,39.9871455], size: 2.75},
   {svg: "svg_43206.svg", coordinates: [-82.9741749,39.9424523], size: 2.75}]
 
+// start react app
 export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
   const [effects] = useState(() => {
     const lightingEffect = new LightingEffect({ambientLight, dirLight});
@@ -148,6 +143,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
     return [lightingEffect];
   });
 
+  // layer for basemap
   let polyLayer = new PolygonLayer({
     id: 'ground',
     data: landCover,
@@ -156,6 +152,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
     getFillColor: [0, 0, 0, 0]
   });
 
+  // layer for heatmap
   let geoLayer = new GeoJsonLayer({
     id: 'geojson',
     data,
@@ -170,6 +167,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
     pickable: true,
   })
 
+  // layer for line chart backgrounds
   let iconBackground = new IconLayer({
     id: 'IconLayer_background',
     data: icon_data,
@@ -191,6 +189,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
     opacity: 100
   })
 
+  // layer for line charts
   let iconPlot = new IconLayer({
     id: 'IconLayer',
     data: icon_data,
@@ -213,7 +212,6 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
   })
 
   const layers = [
-    // only needed when using shadows - a plane for shadows to drop on
     polyLayer,
     geoLayer,
     iconBackground,
@@ -235,4 +233,3 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
 }
 
 render(<App name='World' />, document.getElementById('app'));
-
