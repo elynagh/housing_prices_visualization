@@ -10,3 +10,5 @@ yarn
 # bundle and serve the app with webpack
 npm start
 ```
+
+Then naviagate to http://localhost:8080/ in your browser.
