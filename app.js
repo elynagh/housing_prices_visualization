@@ -206,8 +206,8 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
       url: d.svg,
       x: 0,
       y: 0,
-      width: 256,
-      height: 256,
+      width: 128,
+      height: 128,
       mask: false
     }),
     getPosition: d => d.coordinates,
@@ -217,7 +217,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
     pickable: false,
     alphaCutoff: 0,
     getColor: [0,0,0,200],
-    opacity: 1
+    opacity: 10
   })
 
   const layers = [
