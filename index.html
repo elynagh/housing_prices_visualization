@@ -15,18 +15,52 @@
   <link href="https://carto.com/developers/carto-vl/v1.4.4/examples/maps/style.css" rel="stylesheet">
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
+  <style>
+    aside {float: left;}
+  </style>
 </head>
 <body>
-  <aside class="toolbox">
+  <aside class="toolbox proj-info" style="float:left; position: relative; left: 24px">
     <div class="box">
+      <div id="projectInfo" style="text-align: left; width: 95%; margin:auto; font-family: Optima, HoeflerText-Regular, Cochin">
+            <h1 style="color: #406477">
+                  Columbus Housing Prices and Sales Volume
+            </h1>
+        
+            <h4 style="text-align: left; font-weight: normal !important; margin-top: 0.5rem; margin-bottom: 0.2rem">
+                The goal of this project is: Show geographical differences in Columbus housing value at the community level.
+                Our Client would like to see the geographical differences in changes in housing prices, and the temporal changes within each community.
+                We have collected data from Columbus REALTORS https://www.columbusrealtors.com/housing-reports/. 
+                The visualization interface shows geographical changes in average housing sales prices from 2018 to 2021 via heatmap, and temporal changes 
+                in average housing sales prices and number of sales each year from 2016 to 2021 for each location.  
+                Our observations are south and west Columbus appears to have had strong housing price growth, 
+                whereas northwest and central Columbus has had weaker growth, falling in line with the claim that housing trends differ at the community level.
+            </h4>
+        
+            <h4 style="text-align: left; font-weight: normal !important; margin-top: 0.5rem; margin-bottom: 0.2rem">
+                Student authors: Ethan Lynagh.4, Orchid Wang.10046
+            </h4>
+        
+            <h4 style="text-align: left; font-weight: normal !important; margin-top: 0.5rem; margin-bottom: 0.2rem">
+                Advisors: Ty Henkaline, thenkalineassociates@gmail.com
+            </h4>
+        
+            <h4 style="text-align: left; font-weight: normal !important; margin-top: 0.5rem; margin-bottom: 0.2rem">
+                Link to our project 3-minutes video.
+            </h4>
+      </div>
+    </div>
+  </aside>
+  <aside class="toolbox">
+    <div class="box" style="height: 500px;">
         <header>
             <h1>Housing Trends in Columbus</h1>
         </header>
         <section>
           <div id="controls">
               <ul id="legend_lineplots"></ul>
-              <li><span class="box" style="background-color:red;border: 1px solid black;padding: 10px; margin-right: 5px;"></span> <span>Number of Sales in Year (From 2016 to 2021)</span></li>
-              <li><span class="box" style="background-color:green;border: 1px solid black; padding: 10px; margin-right: 5px;"></span> <span>Average Sales Price in Year (From 2016 to 2021)</span></li>
+              <li><span class="box" style="background-color:#d95f02;border: 1px solid black;padding: 10px; margin-right: 5px;"></span> <span>Number of Sales in Year (From 2016 to 2021)</span></li>
+              <li><span class="box" style="background-color:#7570b3;border: 1px solid black; padding: 10px; margin-right: 5px;"></span> <span>Average Sales Price in Year (From 2016 to 2021)</span></li>
               <div id="legend_heatmap"></div>
           </div>
         </section>

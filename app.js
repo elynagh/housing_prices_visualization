@@ -12,21 +12,30 @@ const DATA_URL =
 
 // color scale for heatmap
 export const COLOR_SCALE = scaleThreshold()
-  .domain([0,.2,.4,.6,.8,.9,1])
+  .domain([-1, -.8, -.6, -.4, -.2, 0, .2, .4, .6, .8, 1])
+  .range(["#003c30", "#003c30", "#01665e", "#35978f", "#80cdc1", "#c7eae5", "white", "#f6e8c3", "#dfc27d", "#bf812d", "#8c510a", "#543005"]);
+
+export const COLOR_SCALE_HEAT = scaleThreshold()
+  .domain([-1, -.8, -.6, -.4, -.2, 0, .2, .4, .6, .8, 1])
   .range([
-    [253, 216, 179],
-    [253, 216, 179],
-    [253, 167, 98],
-    [242, 112, 29],
-    [196, 65, 3],
-    [167, 48, 4],
-    [127, 39, 4]
+    [0,60,48],
+    [0,60,48],
+    [1,102,94],
+    [53,151,143],
+    [128,205,193],
+    [199,234,229],
+    [255,255,255],
+    [246,232,195],
+    [223,194,125],
+    [191,129,45],
+    [140,81,10],
+    [84,48,5]
   ]);
 
 // To generate the D3 legend elements
 var margin = { top: 20, right: 10, bottom: 5, left: 10 },
 width = 300 - margin.left - margin.right,
-height = 150 - margin.top - margin.bottom;
+height = 300 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg = d3.select("#legend_heatmap")
@@ -36,9 +45,9 @@ var svg = d3.select("#legend_heatmap")
   .append("g")
 
 var z = d3.scaleSequential(d3.interpolateOranges)
-z.domain([0, 1]);
+z.domain([-1, 1]);
 var legend = svg.selectAll(".legend")
-    .data(z.ticks(6).slice(1).reverse())
+    .data(z.ticks(12).reverse())
     .enter().append("g")
     .attr("class", "legend")
     .attr("transform", function(d, i) { return "translate(" + (0) + "," + (45 + i * 20) + ")"; });
@@ -46,7 +55,7 @@ var legend = svg.selectAll(".legend")
 legend.append("rect")
     .attr("width", 20)
     .attr("height", 20)
-    .style("fill", z);
+    .style("fill", function(z){ return COLOR_SCALE(z)});
 
 legend.append("text")
     .attr("x", 25)
@@ -83,14 +92,14 @@ const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json'
 
 const ambientLight = new AmbientLight({
   color: [255, 255, 255],
-  intensity: 1.0
+  intensity: 1
 });
 
 const dirLight = new SunLight({
   timestamp: Date.UTC(2019, 7, 1, 22),
   color: [255, 255, 255],
-  intensity: 1.0,
-  _shadow: true
+  intensity: 1,
+  _shadow: false
 });
 
 const landCover = [[[-123.0, 49.196], [-123.0, 49.324], [-123.306, 49.324], [-123.306, 49.196]]];
@@ -162,7 +171,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
     extruded: true,
     wireframe: true,
     getElevation: 0,
-    getFillColor: f => COLOR_SCALE(f.properties.change),
+    getFillColor: f => COLOR_SCALE_HEAT(f.properties.change),
     getLineColor: [255, 255, 255],
     pickable: true,
   })
@@ -197,8 +206,8 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
       url: d.svg,
       x: 0,
       y: 0,
-      width: 128,
-      height: 128,
+      width: 256,
+      height: 256,
       mask: false
     }),
     getPosition: d => d.coordinates,
@@ -208,7 +217,7 @@ export default function App({data = DATA_URL, mapStyle = MAP_STYLE}) {
     pickable: false,
     alphaCutoff: 0,
     getColor: [0,0,0,200],
-    opacity: 90
+    opacity: 1
   })
 
   const layers = [
